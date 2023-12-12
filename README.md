@@ -2,20 +2,49 @@
 
 UML Class diagram
 
-class User {
-userId: int(primary_key),
-username: string,
-password: string,
-isAdmin: boolean,
-email: string
+
+
+Book Table {
+	BookId : int PRIMARY KEY,
+	ISBN : VARCHAR(255),
+	Title : VARCHAR(255),
+	price : DECIMAL(10, 2),
+	FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+	DatePublication : DATE,
+	DateCreation : DATE,
+	Author: Author
 }
 
-class Book {
-bookId: int(primary_key) // depends if ISBN is unique then no need for bookId ???
-Title : string,
-Author: string,
-ISBN: Long | String (depends if we are going to include the - is going to be a string otherwise long ???);
-price: float,
-quantity: int,
-category : string (or possibly enum so we can limit what the user can choose to avoid having endless categories ????)
+Categories Table {
+	CategoryId: INT PRIMARY KEY,
+	Name : VARCHAR(255),
 }
+
+
+Author Table {
+	AuthorID: int PRIMARY KEY,
+	FullName: VARCHAR(255),
+	Description: VARCHAR(255),
+}
+
+Inventory Table {
+	FOREIGN KEY (BookID) REFERENCES Book(BookID),
+}
+
+User Table {
+	UserID: int PRIMARY KEY,
+	Username: VARCHAR(255),
+	Password: VARCHAR(255),
+	Email: VARCHAR(255),
+}
+
+Role Table {
+	RoleID: Int PRIMARY KEY,
+	Name: VARCHAR(255),
+}
+
+UserRoles Table {
+	FOREIGN KEY(RoleID) REFERENCES Role(RoleID),
+	FOREIGN KEY(UserID) REFERENCES User(UserID),
+}
+
